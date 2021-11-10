@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Referer Remover</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+        display: grid;
+        place-items: center;
+        background-color: #235;
+        color: white;
+      }
+
+      label {
+        display: block;
+        font-weight: 200;
+      }
+
+      input {
+        width: 360px;
+        font-size: 16px;
+        padding: 1rem;
+        transition: background-color 40ms;
+      }
+
+      h1 {
+        text-align: center;
+        margin: 0 0 2rem;
+        font-weight: 200;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .app {
+        max-width: 600px;
+        max-height: 400px;
+      }
+
+      .copied {
+        background-color: #f95;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function (event) {
+        const src = document.getElementById("src");
+        const dest = document.getElementById("dest");
+        var hightlightTimer = 0;
+
+        src.addEventListener("input", (e) => {
+          const to = encodeURIComponent(e.target.value);
+          dest.value = e.target.value
+            ? `${window.location.origin}?to=${to}`
+            : "";
+        });
+
+        dest.addEventListener("mousedown", (e) => {
+          window.navigator.clipboard.writeText(e.target.value);
+          window.clearTimeout(hightlightTimer);
+          hightlightTimer = window.setTimeout(() => {
+            dest.classList.remove("copied");
+          }, 160);
+          dest.classList.add("copied");
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="app">
+      <h1>Referer Remover</h1>
+      <div>
+        <label>
+          Original URL:
+          <input id="src" autofocus />
+        </label>
+        <label>
+          Masked URL:
+          <input id="dest" readonly />
+        </label>
+      </div>
+    </div>
+  </body>
+</html>
